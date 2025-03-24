@@ -1,35 +1,39 @@
 #![deny(clippy::all, clippy::pedantic)]
 
-use crate::windows::{get_dup_and_primary_tokens, get_session, set_privilege};
-use ::windows::{
-    Win32::{
-        Security::{
-            SE_ASSIGNPRIMARYTOKEN_NAME,
-            SE_DEBUG_NAME,
-            SE_INCREASE_QUOTA_NAME,
-            SetTokenInformation,
-            TokenSessionId,
-        },
-        System::Threading::{
-            CreateProcessAsUserW,
-            PROCESS_CREATION_FLAGS,
-            PROCESS_INFORMATION,
-            STARTUPINFOW,
-            SetThreadToken,
-        },
-    },
-    core::{PCWSTR, PWSTR},
-};
-use std::{ffi::OsString, os::windows::ffi::OsStrExt};
-
 #[cfg(windows)]
 mod windows;
 
 #[cfg(windows)]
+#[allow(clippy::too_many_lines)]
 fn main() -> std::process::ExitCode {
-    use crate::windows::{cli, enable_debug_privilege};
+    use crate::windows::{
+        cli,
+        enable_debug_privilege,
+        get_dup_and_primary_tokens,
+        get_session,
+        set_privilege,
+    };
+    use ::windows::{
+        Win32::{
+            Security::{
+                SE_ASSIGNPRIMARYTOKEN_NAME,
+                SE_DEBUG_NAME,
+                SE_INCREASE_QUOTA_NAME,
+                SetTokenInformation,
+                TokenSessionId,
+            },
+            System::Threading::{
+                CreateProcessAsUserW,
+                PROCESS_CREATION_FLAGS,
+                PROCESS_INFORMATION,
+                STARTUPINFOW,
+                SetThreadToken,
+            },
+        },
+        core::{PCWSTR, PWSTR},
+    };
     use clap::Parser;
-    use std::process::ExitCode;
+    use std::{ffi::OsString, os::windows::ffi::OsStrExt, process::ExitCode};
 
     let cli = cli::Cli::parse();
 
