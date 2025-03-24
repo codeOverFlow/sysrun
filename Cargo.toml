@@ -1,0 +1,23 @@
+[package]
+name = "sysrun"
+authors = ["CodeOverFlow"]
+version = "0.1.0"
+edition = "2024"
+description = "access-mask is a command line tool that interprets handle access mask values (both generic and specific)."
+keywords = ["access", "mask", "access-mask", "windows"]
+categories = ["command-line-utilities"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/codeOverFlow/access-mask"
+repository = "https://github.com/codeOverFlow/access-mask"
+
+[target.'cfg(windows)'.dependencies]
+clap = { version = "=4.5.32", features = ["derive"] }
+thiserror = "=2.0.12"
+windows = { version = "=0.61.1", features = [
+    "Win32_Security",
+    "Win32_System_RemoteDesktop",
+    "Win32_System_Threading",
+] }
+[dependencies]
+anyhow = "1.0.97"
